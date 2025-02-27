@@ -15,11 +15,13 @@ Using Go (Golang) with SQL databases is a common task for building backend servi
 
 1. Install a Database Driver
 Go's database/sql package requires a database-specific driver to interact with your SQL database. Some popular drivers include:
+
     MySQL: github.com/go-sql-driver/mysql
     PostgreSQL: github.com/lib/pq
     SQLite: github.com/mattn/go-sqlite3
 
 Install the driver using go get:
+
 go get -u github.com/go-sql-driver/mysql  # For MySQL
 go get -u github.com/lib/pq               # For PostgreSQL
 go get -u github.com/mattn/go-sqlite3     # For SQLite
@@ -38,6 +40,7 @@ import (
 Use the sql.Open function to establish a connection to the database. The connection string format depends on the database you're using.
 
 Example for MySQL:
+
 db, err := sql.Open("mysql", "username:password@tcp(127.0.0.1:3306)/dbname")
 if err != nil {
     log.Fatal(err)
@@ -45,6 +48,7 @@ if err != nil {
 defer db.Close() // Ensure the connection is closed when done
 
 Example for PostgreSQL:
+
 db, err := sql.Open("postgres", "user=username dbname=dbname sslmode=disable")
 if err != nil {
     log.Fatal(err)
@@ -54,6 +58,7 @@ defer db.Close()
 4. Execute SQL Queries
 You can use the db.Query, db.Exec, and db.QueryRow methods to execute SQL queries.
 Example: Querying Data
+
 rows, err := db.Query("SELECT id, name FROM users")
 if err != nil {
     log.Fatal(err)
@@ -74,6 +79,7 @@ if err := rows.Err(); err != nil {
 }
 
 Example: Inserting Data
+
 result, err := db.Exec("INSERT INTO users (name, email) VALUES (?, ?)", "John Doe", "john@example.com")
 if err != nil {
     log.Fatal(err)
@@ -86,6 +92,7 @@ if err != nil {
 fmt.Printf("Inserted row with ID: %d\n", lastInsertID)
 
 Example: Updating Data
+
 result, err := db.Exec("UPDATE users SET email = ? WHERE id = ?", "john.doe@example.com", 1)
 if err != nil {
     log.Fatal(err)
@@ -98,6 +105,7 @@ if err != nil {
 fmt.Printf("Updated %d rows\n", rowsAffected)
 
 Example: Deleting Data
+
 result, err := db.Exec("DELETE FROM users WHERE id = ?", 1)
 if err != nil {
     log.Fatal(err)
@@ -112,6 +120,7 @@ fmt.Printf("Deleted %d rows\n", rowsAffected)
 5. Handle Errors and Transactions
 Always handle errors properly and use transactions when performing multiple operations that need to be atomic.
 Example: Using Transactions
+
 tx, err := db.Begin()
 if err != nil {
     log.Fatal(err)
